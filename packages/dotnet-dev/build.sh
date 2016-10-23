@@ -9,7 +9,13 @@ TERMUX_PKG_HOSTBUILD=true
 TERMUX_PKG_FOLDERNAME="cli-1.0.0-preview2.0.1"
 
 termux_step_host_build () {
-	$TERMUX_PKG_SRCDIR/build.sh /t:Compile
+	pushd $TERMUX_PKG_SRCDIR/src
+	git init
+	git commit -m "Termux Build" --allow-empty
+	git branch rel/$TERMUX_PKG_VERSION
+	DOTNET_RUNTIME_ID="ubuntu.16.04-x64"
+	./build.sh /t:Compile
+	popd
 }
 
 termux_step_pre_configure() {
