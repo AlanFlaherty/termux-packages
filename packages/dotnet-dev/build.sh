@@ -10,7 +10,7 @@ TERMUX_PKG_FOLDERNAME="cli-1.0.0-preview2.0.1"
 
 termux_step_host_build () {
 	# Requires to be run from the src path
-	pushd $TERMUX_PKG_SRCDIR/src
+	pushd $TERMUX_PKG_SRCDIR
 
 	# Required for version number and other build internal (see PrepareTargets.cs, other build stages also require this)
 	git init
