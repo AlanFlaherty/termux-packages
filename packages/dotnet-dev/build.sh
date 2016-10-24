@@ -9,12 +9,21 @@ TERMUX_PKG_HOSTBUILD=true
 TERMUX_PKG_FOLDERNAME="cli-1.0.0-preview2.0.1"
 
 termux_step_host_build () {
+	# Requires to be run from the src path
 	pushd $TERMUX_PKG_SRCDIR/src
+
+	# Required for version number and other build internal (see PrepareTargets.cs, other build stages also require this)
 	git init
 	git commit -m "Termux Build" --allow-empty
-	git branch rel/$TERMUX_PKG_VERSION
+	git branch rel/$TERMUX_PKG_VERSION 
+
+	# Might be unecessary. See: https://docs.microsoft.com/en-us/dotnet/articles/core/rid-catalog#linux-rids
 	DOTNET_RUNTIME_ID="ubuntu.16.04-x64"
+
+	# Skip tests, otherwise it will take forever
 	./build.sh /t:Compile
+
+	# Might be unecessary. Returns the the working folder of Termux's build-package.sh
 	popd
 }
 
