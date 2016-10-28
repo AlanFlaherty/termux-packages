@@ -1,12 +1,12 @@
 MUX_PKG_HOMEPAGE=https://www.microsoft.com/net/core
 TERMUX_PKG_DESCRIPTION=".NET Core is a development platform that you can use to build command-line applications, microservices and modern websites. It is open source, cross-platform and is supported by Microsoft."
 TERMUX_PKG_VERSION="1.0.0-preview2.0.1"
-TERMUX_PKG_SRCURL=https://github.com/dotnet/cli/archive/v${TERMUX_PKG_VERSION}.tar.gz
+TERMUX_PKG_SRCURL=https://github.com/dotnet/cli/archive/rel/1.0.0.tar.gz
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS=""
 TERMUX_PKG_RM_AFTER_INSTALL=""
 TERMUX_PKG_DEPENDS="libc6, libcurl3, libgcc1, libgssapi-krb5-2, libicu55, liblldb-3.6, liblttng-ust0, libssl1.0.0, libstdc++6, libstdc++6, libunwind8, libuuid1, zlib1g"
 TERMUX_PKG_HOSTBUILD=true
-TERMUX_PKG_FOLDERNAME="cli-1.0.0-preview2.0.1"
+TERMUX_PKG_FOLDERNAME="cli-rel-1.0.0"
 
 termux_step_host_build () {
 	# Requires to be run from the src path
