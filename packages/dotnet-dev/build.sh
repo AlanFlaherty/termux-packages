@@ -4,7 +4,7 @@ TERMUX_PKG_VERSION="1.0.0-preview2.0.1"
 TERMUX_PKG_SRCURL=https://github.com/dotnet/cli/archive/rel/1.0.0.tar.gz
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS=""
 TERMUX_PKG_RM_AFTER_INSTALL=""
-TERMUX_PKG_DEPENDS="libc6, libcurl3, libgcc1, libgssapi-krb5-2, libicu55, liblldb-3.6, liblttng-ust0, libssl1.0.0, libstdc++6, libstdc++6, libunwind8, libuuid1, zlib1g"
+TERMUX_PKG_DEPENDS="libcurl, libgcc1, libgssapi-krb5-2, libicu55, liblldb-3.6, liblttng-ust0, libssl1.0.0, libstdc++6, libstdc++6, libunwind8, libuuid1, zlib1g"
 TERMUX_PKG_BUILD_IN_SRC="yes"
 TERMUX_PKG_FOLDERNAME="cli-rel-1.0.0"
 
