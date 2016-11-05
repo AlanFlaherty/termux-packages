@@ -21,7 +21,7 @@ termux_step_make() {
 	git branch release/$TERMUX_PKG_VERSION 
 
 	# Skip tests, otherwise it will take forever
-	./build.sh arm64 release cross skiptests
+	./build.sh aarch64 skiptests
 
 	# Might be unecessary. Returns the the working folder of Termux's build-package.sh
 	popd
@@ -29,7 +29,7 @@ termux_step_make() {
 
 termux_step_make_install() {
 	# TODO: Copy output files
-	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.arm64.Release/corerun $TERMUX_PREFIX/bin/share/dotnet/
-	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.arm64.Release/libcoreclr $TERMUX_PREFIX/bin/share/dotnet/
-	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.arm64.Release/mscorlib.dll $TERMUX_PREFIX/bin/share/dotnet/
+	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.aarch64.Release/corerun $TERMUX_PREFIX/bin/share/dotnet/
+	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.aarch64.Release/libcoreclr $TERMUX_PREFIX/bin/share/dotnet/
+	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.aarch64.Release/mscorlib.dll $TERMUX_PREFIX/bin/share/dotnet/
 }
