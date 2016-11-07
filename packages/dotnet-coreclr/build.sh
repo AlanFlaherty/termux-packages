@@ -40,7 +40,7 @@ termux_step_make() {
 
 termux_step_make_install() {
 	mkdir $TERMUX_PREFIX/share/dotnet
-	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.$_ARCH.Release/corerun $TERMUX_PREFIX/share/dotnet/
-	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.$_ARCH.Release/libcoreclr $TERMUX_PREFIX/share/dotnet/
-	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.$_ARCH.Release/mscorlib.dll $TERMUX_PREFIX/share/dotnet/
+	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.$_ARCH.Release/corerun $TERMUX_PREFIX/share/dotnet/corerun
+	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.$_ARCH.Release/libcoreclr.so $TERMUX_PREFIX/share/dotnet/libcoreclr.so
+	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.$_ARCH.Release/mscorlib.dll $TERMUX_PREFIX/share/dotnet/mscorlib.dll
 }
