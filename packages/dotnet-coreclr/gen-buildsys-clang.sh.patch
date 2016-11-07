@@ -1,0 +1,16 @@
+diff -u -r ../orig/gen-buildsys-clang.sh ./gen-buildsys-clang.sh
+--- ./orig/gen-buildsys-clang.sh      2016-11-06 00:06:00.000000000 +0530
++++ ./gen-buildsys-clang.sh      2016-11-06 11:52:09.444037608 +0530
+@@ -18,7 +18,11 @@
+ fi
+
+ # Set up the environment to be used for building with clang.
+-if which "clang-$2.$3" > /dev/null 2>&1
++if [ -n "$CC" ]
++    then
++        export CC=${CC}
++        export CXX=${CXX}
++elif which "clang-$2.$3" > /dev/null 2>&1
+     then
+         export CC="$(which clang-$2.$3)"
+         export CXX="$(which clang++-$2.$3)"
