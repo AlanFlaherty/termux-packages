@@ -7,9 +7,20 @@ TERMUX_PKG_RM_AFTER_INSTALL=""
 TERMUX_PKG_DEPENDS=""
 TERMUX_PKG_BUILD_IN_SRC="yes"
 TERMUX_PKG_FOLDERNAME="coreclr-master"
+TERMUX_PKG_CLANG="yes"
 
 # See https://github.com/dotnet/coreclr/blob/master/Documentation/building/linux-instructions.md
 # TODO: Enable O3 optimizations
+termux_step_pre_configure() {
+	export _ARCH=$TERMUX_ARCH
+	case $_ARCH in
+		arm) CFLAGS+=" -mcpu=cortex-a8";;
+		aarch64) _ARCH=arm64;;
+		x86_64) _ARCH=x64;;
+	esac
+
+	export ROOTFS_DIR=$TERMUX_STANDALONE_TOOLCHAIN
+}
 
 termux_step_make() {
 	# Requires to be run from the src path
@@ -21,15 +32,15 @@ termux_step_make() {
 	git branch release/$TERMUX_PKG_VERSION 
 
 	# Skip tests, otherwise it will take forever
-	./build.sh aarch64 skiptests
+	./build.sh $_ARCH skiptests
 
 	# Might be unecessary. Returns the the working folder of Termux's build-package.sh
 	popd
 }
 
 termux_step_make_install() {
-	# TODO: Copy output files
-	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.aarch64.Release/corerun $TERMUX_PREFIX/bin/share/dotnet/
-	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.aarch64.Release/libcoreclr $TERMUX_PREFIX/bin/share/dotnet/
-	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.aarch64.Release/mscorlib.dll $TERMUX_PREFIX/bin/share/dotnet/
+	mkdir $TERMUX_PREFIX/share/dotnet
+	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.$_ARCH.Release/corerun $TERMUX_PREFIX/share/dotnet/
+	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.$_ARCH.Release/libcoreclr $TERMUX_PREFIX/share/dotnet/
+	cp $TERMUX_PKG_SRCDIR/bin/Product/Linux.$_ARCH.Release/mscorlib.dll $TERMUX_PREFIX/share/dotnet/
 }
