@@ -1,13 +1,11 @@
 TERMUX_PKG_HOMEPAGE=https://www.microsoft.com/net/core
 TERMUX_PKG_DESCRIPTION=".NET Core is a development platform that you can use to build command-line applications, microservices and modern websites. It is open source, cross-platform and is supported by Microsoft."
-TERMUX_PKG_VERSION="1.1.0"
-TERMUX_PKG_SRCURL=https://github.com/dotnet/coreclr/archive/master.tar.gz
-TERMUX_PKG_EXTRA_CONFIGURE_ARGS=""
-TERMUX_PKG_RM_AFTER_INSTALL=""
-TERMUX_PKG_DEPENDS=""
-TERMUX_PKG_BUILD_IN_SRC="yes"
-TERMUX_PKG_FOLDERNAME="coreclr-master"
-TERMUX_PKG_CLANG="yes"
+local _COMMIT=e0b8c96334016770680d64fc83a8e7dbdeb657ee
+TERMUX_PKG_VERSION="2.0.0.0"
+TERMUX_PKG_SRCURL=https://github.com/dotnet/coreclr/archive/${_COMMIT}.tar.gz
+TERMUX_PKG_SHA256=c16e0006e27845326ae11d977fd8e4cddf5ec5e17902feb6ceed501590e09b1b
+TERMUX_PKG_DEPENDS="libicu"
+TERMUX_PKG_FOLDERNAME="coreclr-${_COMMIT}"
 
 # See https://github.com/dotnet/coreclr/blob/master/Documentation/building/linux-instructions.md
 # TODO: Enable O3 optimizations
@@ -19,7 +17,8 @@ termux_step_pre_configure() {
 		x86_64) _ARCH=x64;;
 	esac
 
-	export ROOTFS_DIR=$TERMUX_STANDALONE_TOOLCHAIN
+	export CONFIG_DIR=`realpath cross/android/${_ARCH}`
+ 	export ROOTFS_DIR=`realpath cross/android-rootfs/toolchain/${_ARCH}/sysroot` 
 }
 
 termux_step_make() {
@@ -27,12 +26,16 @@ termux_step_make() {
 	pushd $TERMUX_PKG_SRCDIR
 
 	# Required for version number and other build internal
-	git init
-	git commit -m "Termux Build" --allow-empty
-	git branch release/$TERMUX_PKG_VERSION 
+	# git init
+	# git commit -m "Termux Build" --allow-empty
+	# git branch release/$TERMUX_PKG_VERSION 
+
+	# Initialize RootFS
+	# See https://github.com/qmfrederik/coredroid
+	./cross/build-android-rootfs.sh
 
 	# Skip tests, otherwise it will take forever
-	./build.sh $_ARCH skiptests
+	./build.sh cross ${_ARCH} skipgenerateversion skipnuget
 
 	# Might be unecessary. Returns the the working folder of Termux's build-package.sh
 	popd

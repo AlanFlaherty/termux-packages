@@ -2,16 +2,16 @@ diff --git a/src/pal/tools/gen-buildsys-clang.sh b/src/pal/tools/gen-buildsys-cl
 index 022a9cc..df81a7b 100755
 --- a/src/pal/tools/gen-buildsys-clang.sh
 +++ b/src/pal/tools/gen-buildsys-clang.sh
-@@ -18,7 +18,11 @@ then
+@@ -21,7 +21,11 @@ then
  fi
  
  # Set up the environment to be used for building with clang.
--if which "clang-$2.$3" > /dev/null 2>&1
+-if command -v "clang-$2.$3" > /dev/null
 +if [ -n "$CC" ]
 +    then
 +        export CC=${CC}
 +        export CXX=${CXX}
-+elif which "clang-$2.$3" > /dev/null 2>&1
++elif command -v "clang-$2.$3" > /dev/null
      then
          export CC="$(which clang-$2.$3)"
          export CXX="$(which clang++-$2.$3)"
