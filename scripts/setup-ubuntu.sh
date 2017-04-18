@@ -26,6 +26,7 @@ PACKAGES+=" pkg-config"
 PACKAGES+=" python-docutils" # For rst2man, used by mpv.
 PACKAGES+=" scons"
 PACKAGES+=" texinfo"
+PACKAGES+=" wget"
 PACKAGES+=" xmlto"
 PACKAGES+=" xutils-dev" # Provides 'makedepend' which the openssl build uses.
 
