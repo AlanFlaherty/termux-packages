@@ -4,8 +4,9 @@ local _COMMIT=e0b8c96334016770680d64fc83a8e7dbdeb657ee
 TERMUX_PKG_VERSION="2.0.0.0"
 TERMUX_PKG_SRCURL=https://github.com/dotnet/coreclr/archive/${_COMMIT}.tar.gz
 TERMUX_PKG_SHA256=c16e0006e27845326ae11d977fd8e4cddf5ec5e17902feb6ceed501590e09b1b
-TERMUX_PKG_DEPENDS="libicu"
+TERMUX_PKG_DEPENDS="libicu,libunwind"
 TERMUX_PKG_FOLDERNAME="coreclr-${_COMMIT}"
+TERMUX_PKG_BUILD_IN_SRC="yes"
 
 # TODO: Git clone shallow both clr and fx
 
@@ -21,10 +22,11 @@ termux_step_pre_configure() {
 
 }
 
-termux_step_make() {
-	# Requires to be run from the src path
-	pushd $TERMUX_PKG_SRCDIR
+termux_step_configure () {
+	termux_setup_cmake
+}
 
+termux_step_make() {
 	# TODO: Instead use git clone
 	# Required for version number and other build internal
 	# git init
@@ -33,15 +35,12 @@ termux_step_make() {
 
 	# Initialize RootFS
 	# Use termux patched ndk (TODO: Create folders and inject r14)
-	ln -s /home/builder/lib/android-ndk /home/builder/.termux-build/dotnet-coreclr/src/cross/android-rootfs/android-ndk-r14
-	./cross/build-android-rootfs.sh
+	# ln -s /home/builder/lib/android-ndk /home/builder/.termux-build/dotnet-coreclr/src/cross/android-rootfs/android-ndk-r14
+	# ./cross/build-android-rootfs.sh
 	# See https://github.com/qmfrederik/coredroid
 	# Skip tests, otherwise it will take forever
-	CONFIG_DIR=`realpath cross/android/arm64` ROOTFS_DIR=`realpath /home/builder/.termux-build/dotnet-coreclr/src/cross/android-rootfs/toolchain/arm64/sysroot` ./build.sh cross arm64 skipgenerateversion skipnuget skiptests cmakeargs -DENABLE_LLDBPLUGIN=0
-
-
-	# Might be unecessary. Returns the the working folder of Termux's build-package.sh
-	popd
+	CONFIG_DIR=`realpath cross/android/arm64` ROOTFS_DIR=`realpath /home/builder/.termux-build/_lib/toolchain-aarch64-ndk14-api21-v17` ./build.sh cross arm64 skipgenerateversion skipnuget skiptests cmakeargs -DENABLE_LLDBPLUGIN=0
+	# CONFIG_DIR=`realpath cross/android/arm64` ROOTFS_DIR=`realpath /home/builder/.termux-build/dotnet-coreclr/src/cross/android-rootfs/toolchain/arm64/sysroot` ./build.sh cross arm64 skipgenerateversion skipnuget skiptests cmakeargs -DENABLE_LLDBPLUGIN=0
 }
 
 termux_step_make_install() {
