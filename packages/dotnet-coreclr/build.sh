@@ -4,7 +4,7 @@ local _COMMIT=e0b8c96334016770680d64fc83a8e7dbdeb657ee
 TERMUX_PKG_VERSION="2.0.0.0"
 TERMUX_PKG_SRCURL=https://github.com/dotnet/coreclr/archive/${_COMMIT}.tar.gz
 TERMUX_PKG_SHA256=c16e0006e27845326ae11d977fd8e4cddf5ec5e17902feb6ceed501590e09b1b
-TERMUX_PKG_DEPENDS="libicu,libunwind"
+TERMUX_PKG_DEPENDS="libicu,libuuid,libandroid-glob,libandroid-support,liblzma"
 TERMUX_PKG_FOLDERNAME="coreclr-${_COMMIT}"
 TERMUX_PKG_BUILD_IN_SRC="yes"
 
@@ -36,10 +36,11 @@ termux_step_make() {
 	# Initialize RootFS
 	# Use termux patched ndk (TODO: Create folders and inject r14)
 	# ln -s /home/builder/lib/android-ndk /home/builder/.termux-build/dotnet-coreclr/src/cross/android-rootfs/android-ndk-r14
-	# ./cross/build-android-rootfs.sh
+	# TODO: Instead of downloading, use the built dependencies
+	# NDK_DIR=`realpath /home/builder/.termux-build/_lib/toolchain-aarch64-ndk14-api21-v17` ./cross/build-android-rootfs.sh 
 	# See https://github.com/qmfrederik/coredroid
 	# Skip tests, otherwise it will take forever
-	CONFIG_DIR=`realpath cross/android/arm64` ROOTFS_DIR=`realpath /home/builder/.termux-build/_lib/toolchain-aarch64-ndk14-api21-v17` ./build.sh cross arm64 skipgenerateversion skipnuget skiptests cmakeargs -DENABLE_LLDBPLUGIN=0
+	CONFIG_DIR=`realpath cross/android/arm64` ROOTFS_DIR=`realpath $TERMUX_STANDALONE_TOOLCHAIN/sysroot` ./build.sh cross arm64 skipgenerateversion skipnuget skiptests cmakeargs -DENABLE_LLDBPLUGIN=0
 	# CONFIG_DIR=`realpath cross/android/arm64` ROOTFS_DIR=`realpath /home/builder/.termux-build/dotnet-coreclr/src/cross/android-rootfs/toolchain/arm64/sysroot` ./build.sh cross arm64 skipgenerateversion skipnuget skiptests cmakeargs -DENABLE_LLDBPLUGIN=0
 }
 
