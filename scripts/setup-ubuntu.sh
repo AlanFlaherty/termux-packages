@@ -26,14 +26,15 @@ PACKAGES+=" pkg-config"
 PACKAGES+=" python-docutils" # For rst2man, used by mpv.
 PACKAGES+=" scons"
 PACKAGES+=" texinfo"
+PACKAGES+=" xmlto"
+PACKAGES+=" xutils-dev" # Provides 'makedepend' which the openssl build uses.
+
 # TODO: Validate if all these packages are necessary on host
 PACKAGES+=" wget" # For dotnet-coreclr build-android-rootfs.sh
 PACKAGES+=" libunwind8" # For dotnet-coreclr
-PACKAGES+=" libicu57" # For dotnet-coreclr
+PACKAGES+=" libicu57 libicu-dev" # For dotnet-coreclr
 PACKAGES+=" autoconf" # For dotnet-coreclr
 PACKAGES+=" libcurl4-openssl-dev" # For dotnet-coreclr
-PACKAGES+=" xmlto"
-PACKAGES+=" xutils-dev" # Provides 'makedepend' which the openssl build uses.
 
 DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq $PACKAGES
 

@@ -20,6 +20,8 @@ termux_step_pre_configure() {
 		x86_64) _ARCH=x64;;
 	esac
 
+	# TODO: This might be wrong; the toolchain is android, but we use the android llvm? This does not sound very right...
+	PATH=$PATH:/usr/lib/llvm-3.8/bin
 }
 
 termux_step_configure () {
